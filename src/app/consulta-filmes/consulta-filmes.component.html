@@ -1,0 +1,23 @@
+<div class="container">
+  <h1>Pesquisa de Filme</h1>
+  <div class="search-box">
+    <input type="text" [(ngModel)]="titulo" placeholder="Digite o nome do filme" />
+    <button (click)="pesquisa()">Buscar</button>
+  </div>
+
+
+  <div *ngIf="filme">
+    <h2>{{ filme.Title }}</h2>
+    <p><strong>Ano:</strong> {{ filme.Year }}</p>
+    <p><strong>Gênero:</strong> {{ filme.Genre }}</p>
+    <p><strong>Diretor:</strong> {{ filme.Director }}</p>
+    <p><strong>Enredo:</strong> {{ filme.Plot }}</p>
+    <p><strong>Atores:</strong> {{ filme.Actors }}</p>
+    <img [src]="filme.Poster" alt="Pôster do filme" />
+  </div>
+
+
+  <div *ngIf="!filme">
+    <p>Filme não encontrado. Tente outro título.</p>
+  </div>
+</div>
