@@ -6,8 +6,16 @@
   </div>
 
 
-  <div *ngIf="filme">
-    <h2>{{ filme.Title }}</h2>
+  <div *ngIf="filme && filme.Response != 'False' && !showFavoritos">
+    <div>
+      <h2>{{ filme.Title }}</h2>
+      <div class="buttonContainer">
+        <button (click)="favoritar()">Favoritar</button>
+        <button (click)="getFavoritos()">Ver Favoritos</button>
+      </div>
+
+    </div>
+
     <p><strong>Ano:</strong> {{ filme.Year }}</p>
     <p><strong>Gênero:</strong> {{ filme.Genre }}</p>
     <p><strong>Diretor:</strong> {{ filme.Director }}</p>
@@ -17,7 +25,17 @@
   </div>
 
 
-  <div *ngIf="!filme">
+  <div *ngIf=" filme.Response === 'False' && !showFavoritos">
     <p>Filme não encontrado. Tente outro título.</p>
   </div>
+
+  <div *ngIf="showFavoritos">
+    @for (filme of favoritosList; track filme) {
+      <div class="favDiv" (click)="selectFavorito(filme)">
+          {{filme}}
+        </div>
+    }
+  </div>
+
+
 </div>

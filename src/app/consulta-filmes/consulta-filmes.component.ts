@@ -15,22 +15,60 @@ import { CommonModule } from '@angular/common';
 })
 export class ConsultaFilmesComponent {
   titulo: string = 'Joker';
-  filme: Filme = {}as Filme ;
+  filme: Filme ;
+  showFavoritos: boolean = false;
+  favoritosList:string[] =  []
 
 
   movieService = inject(MovieService);
 
 
   pesquisa() {
-
+    this.showFavoritos = false;
     this.movieService.buscarFilme(this.titulo).subscribe({
       next: (data: Filme) => {
         console.log(data);
         this.filme = data;
+
       },
       error: (error: any) => {
-        console.log(error);
+        this.filme = null
       }
     });
   }
+
+  favoritar(){
+    let lastFavoritos = JSON.parse(localStorage.getItem('filmesFav'));
+    if(lastFavoritos !== null){
+      if(lastFavoritos.filmes.length > 0){
+        lastFavoritos.filmes.push(this.filme);
+        localStorage.setItem('filmesFav', JSON.stringify(lastFavoritos));
+        return
+      }
+    }
+    let data ={
+      filmes:[
+       this.filme
+      ]
+    }
+    localStorage.setItem('filmesFav', JSON.stringify(data));
+  }
+  getFavoritos(){
+    let lastFavoritos = JSON.parse(localStorage.getItem('filmesFav'));
+    console.log(lastFavoritos);
+    if(lastFavoritos !== null){
+        this.showFavoritos = true;
+      const uniqueArray = [...new Set(lastFavoritos.filmes.map(filmes => filmes.Title))];
+        this.favoritosList = uniqueArray as string[];
+    }
+  }
+
+
+  selectFavorito(title:string){
+    this.titulo = title;
+    this.pesquisa()
+    this.showFavoritos = false;
+  }
 }
+
+
