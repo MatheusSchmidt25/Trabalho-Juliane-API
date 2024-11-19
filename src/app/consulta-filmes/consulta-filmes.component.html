@@ -1,7 +1,7 @@
 <div class="container">
   <h1>Pesquisa de Filme</h1>
   <div class="search-box">
-    <input type="text" [(ngModel)]="titulo" placeholder="Digite o nome do filme" />
+    <input type="text" (keydown.enter)="pesquisa()" [(ngModel)]="titulo" placeholder="Digite o nome do filme" />
     <button (click)="pesquisa()">Buscar</button>
   </div>
 
@@ -31,9 +31,9 @@
 
   <div *ngIf="showFavoritos">
     @for (filme of favoritosList; track filme) {
-      <div class="favDiv" (click)="selectFavorito(filme)">
-          {{filme}}
-        </div>
+    <div class="favDiv" (click)="selectFavorito(filme)">
+      {{filme}}
+    </div>
     }
   </div>
 
